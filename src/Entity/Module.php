@@ -38,17 +38,17 @@ private ?Status $status_name = null;
 private ?string $status_message = null;
 
 
-    public function getModuleId(): ?int
+    public function getId(): ?int
     {
         return $this->module_id;
     }
 
-    public function getModuleName(): ?string
+    public function getName(): ?string
     {
         return $this->module_name;
     }
 
-    public function setModuleName(string $module_name): static
+    public function setName(string $module_name): static
     {
         $this->module_name = $module_name;
 
@@ -91,24 +91,24 @@ private ?string $status_message = null;
         return $this;
     }
 
-    public function getModuleTypeName(): ?string
+    public function getModuleType(): ?ModuleType
     {
         return $this->module_type_name;
     }
 
-    public function setModuleTypeName(string $module_type_name): static
+    public function setModuleType(ModuleType $module_type_name): static
     {
         $this->module_type_name = $module_type_name;
 
         return $this;
     }
 
-    public function getStatusName(): ?Status
+    public function getStatus(): ?Status
     {
         return $this->status_name;
     }
 
-    public function setStatusName(Status $status_name): static
+    public function setStatus(Status $status_name): static
     {
         $this->status_name = $status_name;
 

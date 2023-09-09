@@ -19,11 +19,23 @@ class ModuleType
     private string $description;
 
 
-    public function getModuleTypeName(): ?string
+    public function getName(): ?string
     {
         return $this->module_type_name;
     }
 
+        /**
+     * Set the value of module_type_name
+     *
+     * @return  self
+     */ 
+    public function setName($module_type_name)
+    {
+        $this->module_type_name = $module_type_name;
+
+        return $this;
+    }
+    
 
     public function getPrictureFile(): ?string
     {
@@ -57,4 +69,6 @@ class ModuleType
 
         return $this;
     }
+
+
 }

@@ -35,7 +35,7 @@ class ModuleApiController extends AbstractController
 
 
         // Fetch the 'ok' status as an object
-        $status = $statusRepository->findOneBy(['status_name' => 'ok']);
+        $status = $statusRepository->findOneBy(['status_name' => 'Normal']);
 
         // Check if the status is null and return a 404 response
 
@@ -57,7 +57,7 @@ class ModuleApiController extends AbstractController
 
 
         // Set properties of the module with default values
-        $module->setStatusName($status);
+        $module->setStatus($status);
         $module->setStatusMessage(null);
         $module->setActivationDate(new \DateTime());
 

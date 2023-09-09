@@ -16,15 +16,45 @@ class Status
     private ?string $status_category = null;
 
 
-    public function getStatusName(): ?string
+
+
+    /**
+     * Get the value of status_name
+     */ 
+    public function getName(): ?string
     {
         return $this->status_name;
     }
 
+    /**
+     * Set the value of status_name
+     *
+     * @return  self
+     */ 
+    public function setName(string $status_name)
+    {
+        $this->status_name = $status_name;
 
-    public function getStatusCategory(): ?string
+        return $this;
+    }
+
+    /**
+     * Get the value of status_category
+     */ 
+    public function getCategory()
     {
         return $this->status_category;
     }
 
+    /**
+     * Set the value of status_category
+     *
+     * @return  self
+     */ 
+    public function setCategory($status_category)
+    {
+        $this->status_category = $status_category;
+
+        return $this;
+    }
 }

@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ValueLogRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ValueLogRepository::class)]
@@ -29,7 +28,7 @@ class ValueLog
     private ?Module $module_id = null;
 
 
-    public function getValueLogId(): ?int
+    public function getId(): ?int
     {
         return $this->value_log_id;
     }
@@ -58,24 +57,24 @@ class ValueLog
         return $this;
     }
 
-    public function getModuleTypeValueId(): ?int
+    public function getModuleTypeValueId(): ?ModuleTypeValue
     {
         return $this->module_type_value_id;
     }
 
-    public function setModuleTypeValueId(int $module_type_value_id): static
+    public function setModuleTypeValueId(ModuleTypeValue $module_type_value_id): static
     {
         $this->module_type_value_id = $module_type_value_id;
 
         return $this;
     }
 
-    public function getModuleId(): ?int
+    public function getModuleId(): ?Module
     {
         return $this->module_id;
     }
 
-    public function setModuleId(int $module_id): static
+    public function setModuleId(Module $module_id): static
     {
         $this->module_id = $module_id;
 

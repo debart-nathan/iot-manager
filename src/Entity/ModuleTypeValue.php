@@ -25,24 +25,24 @@ class ModuleTypeValue
         return $this->module_type_value_id;
     }
 
-    public function getModuleTypeName(): ?string
+    public function getModuleType(): ?ModuleType
     {
         return $this->module_type_name;
     }
 
-    public function setModuleTypeName(string $module_type_name): static
+    public function setModuleType(ModuleType $module_type_name): static
     {
         $this->module_type_name = $module_type_name;
 
         return $this;
     }
 
-    public function getValueTypeName(): ?string
+    public function getValueType(): ?ValueType
     {
         return $this->value_type_name;
     }
 
-    public function setValueTypeName(string $value_type_name): static
+    public function setValueType(ValueType $value_type_name): static
     {
         $this->value_type_name = $value_type_name;
 
