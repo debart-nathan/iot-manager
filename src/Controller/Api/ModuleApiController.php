@@ -4,69 +4,70 @@ namespace App\Controller\Api;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use App\Repository\ModuleTypeRepository;
 use Psr\Log\LoggerInterface;
 use App\Repository\StatusRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Module;
-
+use App\Form\ModuleForm;
 
 class ModuleApiController extends AbstractController
 {
-
-    private $logger;
-
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
-
     /**
      * @Route("/api/module/new", name="api_module_new", methods={"POST"})
      */
     public function new(
         Request $request,
         StatusRepository $statusRepository,
+        ModuleTypeRepository $moduleTypeRepository,
+        LoggerInterface $logger,
         EntityManagerInterface $entityManager
-    ): Response {
-        $module = new Module();
+    ) {
+        try {
+            $newModule = new Module();
+            $moduleTypes = $moduleTypeRepository->findAll();
 
+            $form = $this->createForm(ModuleForm::class, $newModule, [
+                'moduleTypes' => $moduleTypes,
+                'action' => $this->generateUrl('api_module_new'),
+                'method' => 'POST'
+            ]);
 
+            $form->handleRequest($request);
 
-        // Fetch the 'ok' status as an object
-        $status = $statusRepository->findOneBy(['status_name' => 'Normal']);
+            if ($form->isSubmitted() && $form->isValid()) {
+                // Set properties for the new Module object
+                $newModule->setModuleName($form->get('module_name')->getData());
+                $newModule->setReferenceCode($form->get('reference_code')->getData());
+                $newModule->setModel($form->get('model')->getData());
+                // Set the current date and time
+                $newModule->setActivationDate(new \DateTime());
 
-        // Check if the status is null and return a 404 response
+                // Fetch 'ModuleType' object from database and set module type
+                $moduleType = $moduleTypeRepository->findOneBy(
+                    ['module_type_name' => $form->get('module_type_name')->getData()]
+                );
+                $newModule->setModuleTypeName($moduleType);
 
-        if (!$status) {
+                // Fetch 'Status' object from database and set status
+                $status = $statusRepository->findOneBy(['status_name' => 'Normal']);
+                $newModule->setStatusName($status);
+                $newModule->setStatusMessage('');
 
-            $this->logger->error('Error during module creation : could not find the "ok" status in the database.');
+                // Save the new Module object to the database
+                $entityManager->persist($newModule);
+                $entityManager->flush();
 
-            $this->addFlash(
-                'error',
-                'Nous sommes désolés, mais la fonctionnalité de création de module est temporairement indisponible.' .
-                    'Ceci est dû à un problème technique avec notre base de données.' .
-                    'Si ce problème persiste, veuillez nous contacter.'
-            );
-
-
-            return $this->redirectToRoute("module_new");
+                return $this->redirectToRoute('modules');
+            } else {
+                return new Response('Form not submitted or not valid', 400);
+            }
+        } catch (\Exception $e) {
+            // log the exception
+            $logger->error($e->getMessage());
+            throw $e;
         }
-
-
-
-        // Set properties of the module with default values
-        $module->setStatus($status);
-        $module->setStatusMessage(null);
-        $module->setActivationDate(new \DateTime());
-
-        // Set properties of the module based on the request
-
-        $entityManager->persist($module);
-        $entityManager->flush();
-
-        // Redirect to the "/modules" route for success
-        return $this->redirectToRoute('modules');
     }
 }

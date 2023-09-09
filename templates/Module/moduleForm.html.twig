@@ -5,7 +5,6 @@
 
 {% block main %}
 
-	
 
 	<main class="flex-grow-1">
 		{% for message in app.flashes('error') %}
@@ -13,42 +12,37 @@
 				{{ message|nl2br }}
 			</div>
 		{% endfor %}
-		<form method="post" action="{{ path('api_module_new') }}">
-			<fieldset>
-				<legend>Module Type Form</legend>
-				<div class="form-group">
-					{{ form_label(moduleTypeForm.module_type_name, 'Your Label Here', {'label_attr': {'class': 'form-control-label'}}) }}
-					{{ form_widget(moduleTypeForm.module_type_name, {'attr': {'class': 'form-control'}}) }}
-					{{ form_errors(moduleTypeForm.module_type_name) }}
-				</div>
-			</fieldset>
 
-			<fieldset>
-				<legend>Module Form</legend>
-				<div class="form-group">
-					{{ form_label(moduleForm.module_name, 'Module Name', {'label_attr': {'class': 'form-control-label'}}) }}
-					{{ form_widget(moduleForm.module_name, {'attr': {'class': 'form-control'}}) }}
-					{{ form_errors(moduleForm.module_name) }}
-				</div>
-				<div class="form-group">
-					{{ form_label(moduleForm.reference_code, 'Reference Code', {'label_attr': {'class': 'form-control-label'}}) }}
-					{{ form_widget(moduleForm.reference_code, {'attr': {'class': 'form-control'}}) }}
-					{{ form_errors(moduleForm.reference_code) }}
-				</div>
-				<div class="form-group">
-					{{ form_label(moduleForm.model, 'Model', {'label_attr': {'class': 'form-control-label'}}) }}
-					{{ form_widget(moduleForm.model, {'attr': {'class': 'form-control'}}) }}
-					{{ form_errors(moduleForm.model) }}
-				</div>
-			</fieldset>
 
-			<button type="submit">Submit</button>
-		</form>
+		<h1>Ajouté un Nouveau Module</h1>
+
+		{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+		<div class="form-group">
+			{{ form_label(form.module_type_name, null, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+			<div class="col-sm-10">
+				{{ form_widget(form.module_type_name, {'attr': {'class': 'form-control'}}) }}
+				{{ form_errors(form.module_type_name, {'attr': {'class': 'text-danger'}}) }}
+				<div class="row d-flex justify-content-center">
+					<div class="col-5 col-md-2">
+						<img id="module-type-picture" src="default.png" data-src="{{ asset('build/images/default.png') }}" alt="Module Type Picture" class="img-fluid">
+					</div>
+					<div class="col-12 col-md-10" id="module-type-description" style="min-height: 50px;"></div>
+				</div>
+			</div>
+		</div>
+		{{ form_rest(form) }}
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+			</div>
+		</div>
+		{{ form_end(form) }}
+
 	</main>
 
 {% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
-	<script src="{{ asset('js/moduleForm.js') }}"></script>
+	{{ encore_entry_script_tags('moduleForm') }}
 {% endblock %}

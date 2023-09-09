@@ -1,65 +1,42 @@
-const fetchModuleTypeFullDescription = async (selectedModuleType) => {
-    const response = await fetch('/api/get/module-type/full-description', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            moduleTypeName: selectedModuleType,
-        }),
+window.onload = function () {
+    // Selecting module type dropdown
+    const module_type_dropdown = document.getElementById('module_form_module_type_name');
+
+    // Setting up an event listener for the module type dropdown
+    module_type_dropdown.addEventListener('change', function (e) {
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        populateDescription(selectedOption);
     });
 
-    return response.json();
-};
+    // Defining the populateDescription function
+    function populateDescription(selectedOption) {
+        console.log(selectedOption.value)
+        fetch('/api/module-type/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ moduleTypeName: selectedOption.value }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                let description = data.description;
+                let picture_file = data.picture_file;
 
-const clearElement = (element) => {
-    while (element.firstChild) {
-        element.firstChild.remove();
-    }
-};
+                // Update the description and image based on the fetched data
+                document.getElementById('module-type-description').innerHTML = description;
+                let imageElement = document.getElementById('module-type-picture');
+                imageElement.src = imageElement.dataset.src.replace("default.png", picture_file);
+                imageElement.alt = selectedOption.value + ' picture';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    };
 
-const createDescription = (descriptionText) => {
-    const description = document.createElement('p');
-    description.textContent = descriptionText;
-    return description;
-};
 
-const createValueTypesContainer = (valueTypes) => {
-    const container = document.createElement('div');
-    const header = document.createElement('h3');
-    header.textContent = 'Value Types';
-    container.appendChild(header);
 
-    const list = document.createElement('ul');
-    valueTypes.forEach((valueType) => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${valueType.name} (${valueType.unit})`;
-        list.appendChild(listItem);
-    });
 
-    container.appendChild(list);
-    return container;
-};
-
-const handleModuleTypeChange = async (event) => {
-    const selectedModuleType = event.target.value;
-    const data = await fetchModuleTypeFullDescription(selectedModuleType);
-
-    const descriptionField = document.querySelector('#description-field');
-    clearElement(descriptionField);
-
-    const description = createDescription(data.description);
-    descriptionField.appendChild(description);
-
-    const valueTypesContainer = createValueTypesContainer(data.valueTypes);
-    descriptionField.appendChild(valueTypesContainer);
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-    let module_type_name_select = document.querySelector('#module_type_name');
-    if (module_type_name_select) {
-        module_type_name_select.addEventListener('change', handleModuleTypeChange
-            .catch(er => console.error("An Error occurred: ", error))
-        );
-    }
-});
+    // Populating the description by default for the first option in the dropdown
+    populateDescription(module_type_dropdown.options[0]);
+}

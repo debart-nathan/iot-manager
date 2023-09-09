@@ -1,11 +1,11 @@
 <?php
+
 namespace App\Controller\Html;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Module;
-use App\Form\ModuleTypeForm;
 use App\Form\ModuleForm;
 use App\Repository\ModuleTypeRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,33 +13,34 @@ use Symfony\Component\HttpFoundation\Request;
 class ModuleHtmlController extends AbstractController
 {
 
+
     /**
      * @Route("/module/new", name="module_new")
      */
-    public function new(Request $request,ModuleTypeRepository $moduleTypeRepository): Response
+    public function new(Request $request, ModuleTypeRepository $moduleTypeRepository): Response
     {
         $module = new Module();
         // Fetch all ModuleType entities
         $moduleTypes = $moduleTypeRepository->findAll();
 
-        // Pass them to the moduleTypeForm
-        $moduleTypeForm = $this->createForm(ModuleTypeForm::class, $module, [
+        // Create the form
+        $form = $this->createForm(ModuleForm::class, $module, [
             'moduleTypes' => $moduleTypes,
+            'action' => $this->generateUrl('api_module_new'),
+            'method' => 'POST'
         ]);
 
-        // Get the rest of the fields
-        $moduleForm = $this->createForm(ModuleForm::class, $module);
+        // Handle the request
+        $form->handleRequest($request);
 
-        $moduleTypeForm->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Perform some business logic...
 
-        if ($moduleTypeForm->isSubmitted() && $moduleTypeForm->isValid()) {
-            return $this->redirectToRoute('module_show', ['id' => $module->getModuleId()]);
+            return $this->redirectToRoute('module_success');
         }
 
         return $this->render('Module/moduleForm.html.twig', [
-            'module' => $module,
-            'moduleTypeForm' => $moduleTypeForm->createView(),
-            'moduleForm' => $moduleForm->createView(),
+            'form' => $form->createView(),
         ]);
     }
 }

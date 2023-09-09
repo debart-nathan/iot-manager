@@ -38,7 +38,7 @@ private ?Status $status_name = null;
 private ?string $status_message = null;
 
 
-    public function getId(): ?int
+    public function getModuleId(): ?int
     {
         return $this->module_id;
     }
@@ -103,12 +103,12 @@ private ?string $status_message = null;
         return $this;
     }
 
-    public function getStatus(): ?Status
+    public function getStatusName(): ?Status
     {
         return $this->status_name;
     }
 
-    public function setStatus(Status $status_name): static
+    public function setStatusName(Status $status_name): static
     {
         $this->status_name = $status_name;
 
