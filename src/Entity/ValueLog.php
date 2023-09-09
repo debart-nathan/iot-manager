@@ -28,7 +28,7 @@ class ValueLog
     private ?Module $module_id = null;
 
 
-    public function getId(): ?int
+    public function getValueLogId(): ?int
     {
         return $this->value_log_id;
     }

@@ -19,7 +19,7 @@ class ModuleType
     private string $description;
 
 
-    public function getName(): ?string
+    public function getModuleTypeName(): ?string
     {
         return $this->module_type_name;
     }
@@ -29,7 +29,7 @@ class ModuleType
      *
      * @return  self
      */ 
-    public function setName($module_type_name)
+    public function setModuleTypeName($module_type_name)
     {
         $this->module_type_name = $module_type_name;
 
@@ -37,12 +37,12 @@ class ModuleType
     }
     
 
-    public function getPrictureFile(): ?string
+    public function getPictureFile(): ?string
     {
         return $this->picture_file;
     }
 
-    public function setPrictureFile(string $picture_file): static
+    public function setPictureFile(string $picture_file): static
     {
         $this->picture_file = $picture_file;
 

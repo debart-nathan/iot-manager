@@ -21,7 +21,7 @@ class Status
     /**
      * Get the value of status_name
      */ 
-    public function getName(): ?string
+    public function getStatusName(): ?string
     {
         return $this->status_name;
     }
@@ -31,7 +31,7 @@ class Status
      *
      * @return  self
      */ 
-    public function setName(string $status_name)
+    public function setStatusName(string $status_name)
     {
         $this->status_name = $status_name;
 

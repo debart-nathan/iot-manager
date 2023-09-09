@@ -43,12 +43,12 @@ private ?string $status_message = null;
         return $this->module_id;
     }
 
-    public function getName(): ?string
+    public function getModuleName(): ?string
     {
         return $this->module_name;
     }
 
-    public function setName(string $module_name): static
+    public function setModuleName(string $module_name): static
     {
         $this->module_name = $module_name;
 
@@ -91,12 +91,12 @@ private ?string $status_message = null;
         return $this;
     }
 
-    public function getModuleType(): ?ModuleType
+    public function getModuleTypeName(): ?ModuleType
     {
         return $this->module_type_name;
     }
 
-    public function setModuleType(ModuleType $module_type_name): static
+    public function setModuleTypeName(ModuleType $module_type_name): static
     {
         $this->module_type_name = $module_type_name;
 

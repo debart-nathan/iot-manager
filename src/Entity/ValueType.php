@@ -29,7 +29,7 @@ class ValueType
      *
      * @return  self
      */ 
-    public function setName($value_type_name)
+    public function setValueTypeName($value_type_name)
     {
         $this->value_type_name = $value_type_name;
 
