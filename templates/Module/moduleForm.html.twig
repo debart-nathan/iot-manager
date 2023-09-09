@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Module Form
+{% endblock %}
+
+{% block main %}
+
+	
+
+	<main class="flex-grow-1">
+		{% for message in app.flashes('error') %}
+			<div class="flash-error">
+				{{ message|nl2br }}
+			</div>
+		{% endfor %}
+		<form method="post" action="{{ path('api_module_new') }}">
+			<fieldset>
+				<legend>Module Type Form</legend>
+				<div class="form-group">
+					{{ form_label(moduleTypeForm.module_type_name, 'Your Label Here', {'label_attr': {'class': 'form-control-label'}}) }}
+					{{ form_widget(moduleTypeForm.module_type_name, {'attr': {'class': 'form-control'}}) }}
+					{{ form_errors(moduleTypeForm.module_type_name) }}
+				</div>
+			</fieldset>
+
+			<fieldset>
+				<legend>Module Form</legend>
+				<div class="form-group">
+					{{ form_label(moduleForm.module_name, 'Module Name', {'label_attr': {'class': 'form-control-label'}}) }}
+					{{ form_widget(moduleForm.module_name, {'attr': {'class': 'form-control'}}) }}
+					{{ form_errors(moduleForm.module_name) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(moduleForm.reference_code, 'Reference Code', {'label_attr': {'class': 'form-control-label'}}) }}
+					{{ form_widget(moduleForm.reference_code, {'attr': {'class': 'form-control'}}) }}
+					{{ form_errors(moduleForm.reference_code) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(moduleForm.model, 'Model', {'label_attr': {'class': 'form-control-label'}}) }}
+					{{ form_widget(moduleForm.model, {'attr': {'class': 'form-control'}}) }}
+					{{ form_errors(moduleForm.model) }}
+				</div>
+			</fieldset>
+
+			<button type="submit">Submit</button>
+		</form>
+	</main>
+
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/moduleForm.js') }}"></script>
+{% endblock %}

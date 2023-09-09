@@ -15,6 +15,9 @@ class ModuleType
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $picture_file = null;
 
+    #[ORM\Column(type: "text")]
+    private string $description;
+
 
     public function getModuleTypeName(): ?string
     {
@@ -30,6 +33,27 @@ class ModuleType
     public function setPrictureFile(string $picture_file): static
     {
         $this->picture_file = $picture_file;
+
+        return $this;
+    }
+    
+
+    /**
+     * Get the value of description
+     */ 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set the value of description
+     *
+     * @return  self
+     */ 
+    public function setDescription($description): static
+    {
+        $this->description = $description;
 
         return $this;
     }

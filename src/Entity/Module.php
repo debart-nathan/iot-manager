@@ -103,12 +103,12 @@ private ?string $status_message = null;
         return $this;
     }
 
-    public function getStatusName(): ?string
+    public function getStatusName(): ?Status
     {
         return $this->status_name;
     }
 
-    public function setStatusName(string $status_name): static
+    public function setStatusName(Status $status_name): static
     {
         $this->status_name = $status_name;
 
@@ -120,7 +120,7 @@ private ?string $status_message = null;
         return $this->status_message;
     }
 
-    public function setStatusMessage(string $status_message): static
+    public function setStatusMessage(?string $status_message): static
     {
         $this->status_message = $status_message;
 
