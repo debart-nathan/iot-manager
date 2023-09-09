@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 class ModuleTypeValue
 {
     #[ORM\Id]
+    #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private ?int $module_type_value_id = null;
     
