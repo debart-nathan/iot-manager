@@ -19,7 +19,7 @@ class ValueType
     /**
      * Get the value of value_type_name
      */ 
-    public function getName()
+    public function getValueTypeName()
     {
         return $this->value_type_name;
     }

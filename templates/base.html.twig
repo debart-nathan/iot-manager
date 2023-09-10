@@ -11,7 +11,9 @@
 	</head>
 	<body class="d-flex flex-column min-vh-100">
 		{% include 'header.html.twig' %}
+		<main class="flex-grow-1">
 		{% block main %}{% endblock %}
+		</main>
 		{% include 'footer.html.twig' %}
 		{% block javascripts %}{% endblock %}
 	</body>

@@ -1,0 +1,17 @@
+{# form_field.html.twig #}
+
+<div class="col text-nowrap">
+	<label for="{{ name }}">{{ label }}</label>
+	{% set value = app.request.query.get(name) %}
+	{% if type == 'text' %}
+		<input type="text" class="form-control" id="{{ name }}" name="{{ name }}" value="{{ value is not null ? value : '' }}"/>
+	{% elseif type == 'select' %}
+		<select class="form-control" id="{{ name }}" name="{{ name }}">
+			{% for option in options %}
+				<option value="{{ option }}" {{ value is not null and value == option ? 'selected' : '' }}>
+			        {{ option }}
+		        </option>
+            {% endfor %}
+        </select>
+    {% endif %}
+</div>

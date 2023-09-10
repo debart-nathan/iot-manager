@@ -21,6 +21,17 @@ class StatusRepository extends ServiceEntityRepository
         parent::__construct($registry, Status::class);
     }
 
+    public function findDistinctStatusCategory(): array
+{
+    $qb = $this->createQueryBuilder('st')
+        ->select('st.status_category')
+        ->distinct();
+
+    $query = $qb->getQuery();
+
+    return $query->execute();
+}
+
 //    /**
 //     * @return Status[] Returns an array of Status objects
 //     */

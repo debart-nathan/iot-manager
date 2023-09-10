@@ -21,28 +21,39 @@ class ValueLogRepository extends ServiceEntityRepository
         parent::__construct($registry, ValueLog::class);
     }
 
-//    /**
-//     * @return ValueLog[] Returns an array of ValueLog objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('v')
-//            ->andWhere('v.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('v.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return ValueLog[] Returns an array of ValueLog objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('v')
+    //            ->andWhere('v.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('v.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?ValueLog
-//    {
-//        return $this->createQueryBuilder('v')
-//            ->andWhere('v.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?ValueLog
+    //    {
+    //        return $this->createQueryBuilder('v')
+    //            ->andWhere('v.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
+
+    public function findLatestLogDateByModuleId(int $moduleId): ?\DateTimeInterface
+    {
+        $qb = $this->createQueryBuilder('v');
+
+        $qb->select('MAX(v.log_date)')
+            ->where('v.module_id = :module_id')
+            ->setParameter('module_id', $moduleId);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

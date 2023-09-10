@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page Title
+{% endblock %}
+
+{% block main %}
+	<div class="container">
+		<section id="filters-sort" class=" p-3 m-3">
+			<form action="/modules" method="get">
+				<div class="container  row gy-3">
+					<div class="row gy-3 ">
+						{% include 'form_field.html.twig' with {'type': "text", 'name': 'module_name', 'label': label.module_name} %}
+						{% include 'form_field.html.twig' with {'type': "text", 'name': 'reference_code', 'label': label.reference_code}  %}
+						{% include 'form_field.html.twig' with {'type': "text", 'name': 'model', 'label': label.model}  %}
+					</div>
+					<div class="row gy-3 ">
+						{% include 'form_field.html.twig' with {'type': "select", 'name': 'module_type_name', 'label': label.module_type_name, 'options': filterData.module_type_name} %}
+						{% include 'form_field.html.twig' with {'type': "select", 'name': 'status_category', 'label': label.status_category, 'options': filterData.status_category} %}
+						{% include 'form_field.html.twig' with {'type': "select", 'name': 'status_name', 'label': label.status_name, 'options': filterData.status_name} %}
+					</div>
+					<div class="row  gy-3">
+						<label for="sort">Trier</label>
+						<select class="form-control" id="sort" name="sort">
+							{% set sortValue = app.request.query.get('sort') %}
+							{% for option in filterData.sorts %}
+								<option value="{{ option }}" {{ sortValue is not null and sortValue == option ? 'selected' : '' }}>
+									{{ label[option] }}
+								</option>
+							{% endfor %}
+						</select>
+						{% include 'form_field.html.twig' with {'type': "select", 'name': 'order', 'label': 'Ordre', 'options': ['ASC', 'DESC']} %}
+					</div>
+					<div class "row gy-3">
+						<button type="submit" class="btn btn-primary">Filtrer et Trier</button>
+					</div>
+				</form>
+			</section>
+			<section class="row gy-3">
+				{% for module in moduleData %}
+					<article id="{{module.module_id}}" class="card w-100 rounded rounded-4 bg-light border border-5 border-primary">
+						<div class="row no-gutters d-flex justify-content-center">
+							<div class="col-12">
+								{% if module.status_category != 'Normal' %}
+									<div class="alert alert-danger" role="alert">
+										{{ module.status_name }}
+										:
+										{{ module.status_message }}
+									</div>
+								{% endif %}
+							</div>
+							<div class="col-md-3 overflow-hidden rounded rounded-4 d-flex justify-content-center align-items-center">
+								<img src="{{ asset('build/images/' ~ module.module_type_picture_file ) }}" class="card-img fitted-image" alt="{{ module.module_type_name }}">
+							</div>
+							<div class="col-md-3">
+								<div class="card-body">
+									<h3 class="card-title">{{ module.module_name }}</h3>
+									<p class="card-text">{{ module.model }}</p>
+									<p class="card-text">
+										<small class="text-muted text-small">{{ module.reference_code }}</small>
+									</p>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="card-body">
+									<p class="card-text">Total Value Logs:
+										{{ module.total_value_logs }}</p>
+									<p class="card-text">Durée d'activation:<br>
+										{{ module.activation_duration }}</p>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="card-body">
+									{% for value_log in module.most_recent_value_logs %}
+										<p class="card-text">{{ value_log.value_type_name }}:
+											{{ value_log.data }}
+											{{ value_log.unit }}</p>
+									{% endfor %}
+								</div>
+							</div>
+							<div class="col-12">
+								<div id="graph-{{module.module_id}}" class="row"></div>
+							</div>
+
+						</div>
+					</article>
+				{% endfor %}
+			</section>
+		</div>
+	{% endblock %}
+	{% block javascripts %}
+		{{ parent() }}{{ encore_entry_script_tags('modules') }}
+	{% endblock %}
