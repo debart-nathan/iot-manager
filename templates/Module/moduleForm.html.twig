@@ -6,39 +6,41 @@
 {% block main %}
 
 
-	<main class="flex-grow-1">
-		{% for message in app.flashes('error') %}
-			<div class="flash-error">
-				{{ message|nl2br }}
-			</div>
-		{% endfor %}
+	{% for message in app.flashes('error') %}
+		<div class="flash-error">
+			{{ message|nl2br }}
+		</div>
+	{% endfor %}
 
-
-		<h1>Ajouté un Nouveau Module</h1>
-
-		{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
-		<div class="form-group">
-			{{ form_label(form.module_type_name, null, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-			<div class="col-sm-10">
-				{{ form_widget(form.module_type_name, {'attr': {'class': 'form-control'}}) }}
-				{{ form_errors(form.module_type_name, {'attr': {'class': 'text-danger'}}) }}
-				<div class="row d-flex justify-content-center">
-					<div class="col-5 col-md-2">
-						<img id="module-type-picture" src="default.png" data-src="{{ asset('build/images/default.png') }}" alt="Module Type Picture" class="img-fluid">
+	<div class=" container">
+		<h1 class=" m-4">Ajouté un Nouveau Module</h1>
+		<section>
+			{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+			<div class="form-group">
+				{{ form_label(form.module_type_name, null, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+				<div class=" d-flex flex-column allign-items-center">
+					{{ form_widget(form.module_type_name, {'attr': {'class': 'form-control'}}) }}
+					{{ form_errors(form.module_type_name, {'attr': {'class': 'text-danger'}}) }}
+					<div class="row d-flex justify-content-center">
+						<div class="col-5 col-md-2">
+							<img id="module-type-picture" src="default.png" data-src="{{ asset('build/images/default.png') }}" alt="Module Type Picture" class="img-fluid fitted-image">
+						</div>
+						<div class="col-12 col-md-10" id="module-type-description" style="min-height: 50px;"></div>
 					</div>
-					<div class="col-12 col-md-10" id="module-type-description" style="min-height: 50px;"></div>
 				</div>
 			</div>
-		</div>
-		{{ form_rest(form) }}
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+			<div class="form-goup d-flex justify-content-around">
+				{{ form_rest(form) }}
 			</div>
-		</div>
-		{{ form_end(form) }}
+			<div class="form-group">
+				<div class=" m-5 d-flex justify-content-center">
+					<button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+				</div>
+			</div>
+			{{ form_end(form) }}
+		</section>
+	</div>
 
-	</main>
 
 {% endblock %}
 

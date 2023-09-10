@@ -20,12 +20,15 @@ window.onload = function () {
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data)
+
                 let description = data.description;
-                let picture_file = data.picture_file;
+                let picture_file = data.picture;
 
                 // Update the description and image based on the fetched data
                 document.getElementById('module-type-description').innerHTML = description;
                 let imageElement = document.getElementById('module-type-picture');
+                console.log(picture_file);
                 imageElement.src = imageElement.dataset.src.replace("default.png", picture_file);
                 imageElement.alt = selectedOption.value + ' picture';
             })
