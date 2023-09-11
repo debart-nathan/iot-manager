@@ -2,10 +2,7 @@ import { Chart } from 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
 
 /** 
- * Event listener for form submission. This prevents the default form submission behavior 
- * and creates a URLSearchParams object from the form data. The page is then redirected to 
- * the updated URL with the form data as query parameters. This is useful for preserving 
- * form data across page loads.
+ * Handles form submission, updates URL with form data.
  */
 window.addEventListener('load', () => {
     // Event listener of submit of filter
@@ -23,10 +20,8 @@ window.addEventListener('load', () => {
     });
 
     /** 
- * Event listener for delete buttons. When a delete button is clicked, the user is prompted 
- * for confirmation. If the user confirms, the module is deleted. If the user cancels, the 
- * deletion is prevented. This ensures that modules are not accidentally deleted.
- */
+    * Confirms before deleting a module.
+    */
     document.querySelectorAll('.btn-delete').forEach(function (btn) {
         btn.addEventListener('click', function (e) {
             const moduleName = btn.getAttribute('data-module-name');
@@ -38,13 +33,8 @@ window.addEventListener('load', () => {
     });
 
     /** 
- * Event listeners for article elements and their child elements. When an article element 
- * is clicked, data is fetched and a chart is generated based on the module ID. Child elements 
- * of the article element also have event listeners that stop the event from bubbling up and 
- * fetch data to generate a chart based on the parent article element's ID. This allows for 
- * interactive data visualization within each module.
- */
-
+     * On article click, fetches data and generates a chart.
+     */
     // Get the article element
     const articleElements = document.querySelectorAll('article');
     let childElements = null;
@@ -75,11 +65,7 @@ window.addEventListener('load', () => {
 });
 
 /** 
- * Function to fetch data and generate a chart. This function sends a POST request to an API 
- * endpoint with the module ID as a parameter. If the response is successful, the data is 
- * processed and passed to the handleGraphs function for chart generation. If there is an 
- * error, it is logged to the console. This function is responsible for retrieving the 
- * necessary data for chart generation.
+ * Generates graphs from fetched data.
  */
 async function fetchDataAndGenerateChart(moduleId) {
     console.log(moduleId)

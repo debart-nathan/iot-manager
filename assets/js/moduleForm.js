@@ -1,3 +1,7 @@
+
+/** 
+ * Selects dropdown, sets up event listener for value changes.
+ */
 window.onload = function () {
     // Selecting module type dropdown
     const module_type_dropdown = document.getElementById('module_form_module_type_name');
@@ -8,7 +12,9 @@ window.onload = function () {
         populateDescription(selectedOption);
     });
 
-    // This function fetches and updates the description for the selected module types.
+    /** 
+     * Fetches and updates description for selected module type.
+     */
     function populateDescription(selectedOption) {
         console.log(selectedOption.value)
         fetch('/api/module-type/', {
