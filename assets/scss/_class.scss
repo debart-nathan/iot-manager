@@ -1,6 +1,11 @@
+.fitted-image {
+  object-fit: cover;
+  height: min(100%, 30vh);
+  max-width: min(50vw, 100%);
+}
 
-.fitted-image{
-    object-fit: cover; 
-    height: min(100%,30vh); 
-    max-width: min(50vw,100%) ; 
+.graph {
+  transition: max-height 0.5s ease-out;
+  max-height: 0px;
+  overflow: hidden;
 }

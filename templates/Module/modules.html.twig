@@ -41,7 +41,7 @@
 		<div class="container">
 			<section class="row gy-3">
 				{% for module in moduleData %}
-					<article id="{{module.module_id}}" class="card w-100 rounded rounded-4 border border-5 border-dark" style=' background-color : #d9d9d9'>
+					<article id="{{module.module_id}}" tabindex="0" class="card w-100 rounded rounded-4 border border-5 border-dark" style=' background-color : #d9d9d9'>
 						<div class="row no-gutters d-flex justify-content-center">
 							<div class="col-12">
 								{% if module.status_category == 'Avertissement' %}
@@ -89,7 +89,7 @@
 								</div>
 							</div>
 							<div class="col-12">
-								<div id="graph-{{module.module_id}}" class="row"></div>
+								<div id="graph-{{module.module_id}}" class="row graph" style=' background-color : #c9c9c9'></div>
 							</div>
 
 						</div>

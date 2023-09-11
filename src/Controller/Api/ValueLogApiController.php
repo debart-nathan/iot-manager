@@ -28,7 +28,7 @@ class ValueLogApiController extends AbstractController
         // Format the data
         $values = [];
         foreach ($valueLogs as $valueLog) {
-            $valueType = $valueLog->getModuleTypeValue()->getValueType();
+            $valueType = $valueLog->getModuleTypeValueId()->getValueTypeName();
             $valueTypeName = $valueType->getValueTypeName();
             $unit = $valueType->getUnit();
             $logDate = $valueLog->getLogDate();
@@ -41,7 +41,8 @@ class ValueLogApiController extends AbstractController
                 ];
             }
 
-            $values[$valueTypeName]['valueLog'][$logDate] = $data;
+            $logDateStr = $logDate->format('Y-m-d H:i:s');
+            $values[$valueTypeName]['valueLog'][$logDateStr] = $data;
         }
 
         // Return the JsonResponse object
