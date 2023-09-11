@@ -33,6 +33,17 @@ class ModuleRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function countByStatusCategory($statusCategory)
+    {
+        return $this->createQueryBuilder('m')
+            ->select('count(m)')
+            ->innerJoin('m.status_name', 's')
+            ->where('s.status_category = :statusCategory')
+            ->setParameter('statusCategory', $statusCategory)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     public function findWithFiltersAndSort(array $filters, ?string $sort, ?string $order): array
     {
         $qb = $this->createQueryBuilder('m');

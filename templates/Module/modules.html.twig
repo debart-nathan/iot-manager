@@ -1,24 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Page Title
+{% block title %}IoT_manager : Liste des Modules
 {% endblock %}
 
 {% block main %}
-	<div class="container">
-		<section id="filters-sort" class=" p-3 m-3">
-			<form action="/modules" method="get">
-				<div class="container  row gy-3">
-					<div class="row gy-3 ">
-						{% include 'form_field.html.twig' with {'type': "text", 'name': 'module_name', 'label': label.module_name} %}
-						{% include 'form_field.html.twig' with {'type': "text", 'name': 'reference_code', 'label': label.reference_code}  %}
-						{% include 'form_field.html.twig' with {'type': "text", 'name': 'model', 'label': label.model}  %}
-					</div>
-					<div class="row gy-3 ">
-						{% include 'form_field.html.twig' with {'type': "select", 'name': 'module_type_name', 'label': label.module_type_name, 'options': filterData.module_type_name} %}
-						{% include 'form_field.html.twig' with {'type': "select", 'name': 'status_category', 'label': label.status_category, 'options': filterData.status_category} %}
-						{% include 'form_field.html.twig' with {'type': "select", 'name': 'status_name', 'label': label.status_name, 'options': filterData.status_name} %}
-					</div>
-					<div class="row  gy-3">
+
+	<section id="filters-sort" class=" p-3 msfs-6 " style=' background-color : #d8d8d8'>
+		<h2>Listes des modules</h2>
+		<form action="/modules" method="get">
+			<div class="container  row">
+				<div class="row gy-3 ">
+					{% include 'form_field.html.twig' with {'type': "text", 'name': 'module_name', 'label': label.module_name} %}
+					{% include 'form_field.html.twig' with {'type': "text", 'name': 'reference_code', 'label': label.reference_code}  %}
+					{% include 'form_field.html.twig' with {'type': "text", 'name': 'model', 'label': label.model}  %}
+				</div>
+				<div class="row gy-3 ">
+					{% include 'form_field.html.twig' with {'type': "select", 'name': 'module_type_name', 'label': label.module_type_name, 'options': filterData.module_type_name} %}
+					{% include 'form_field.html.twig' with {'type': "select", 'name': 'status_category', 'label': label.status_category, 'options': filterData.status_category} %}
+					{% include 'form_field.html.twig' with {'type': "select", 'name': 'status_name', 'label': label.status_name, 'options': filterData.status_name} %}
+				</div>
+				<div class="row  gy-3">
+					<div class="col text-nowrap">
 						<label for="sort">Trier</label>
 						<select class="form-control" id="sort" name="sort">
 							{% set sortValue = app.request.query.get('sort') %}
@@ -28,19 +30,28 @@
 								</option>
 							{% endfor %}
 						</select>
-						{% include 'form_field.html.twig' with {'type': "select", 'name': 'order', 'label': 'Ordre', 'options': ['ASC', 'DESC']} %}
 					</div>
-					<div class "row gy-3">
-						<button type="submit" class="btn btn-primary">Filtrer et Trier</button>
-					</div>
-				</form>
-			</section>
+					{% include 'form_field.html.twig' with {'type': "select", 'name': 'order', 'label': 'Ordre', 'options': ['ASC', 'DESC']} %}
+				</div>
+				<div class "row gy-3">
+					<button type="submit" class="btn btn-dark">Filtrer et Trier</button>
+				</div>
+			</form>
+		</section>
+		<div class="container">
 			<section class="row gy-3">
 				{% for module in moduleData %}
-					<article id="{{module.module_id}}" class="card w-100 rounded rounded-4 bg-light border border-5 border-primary">
+					<article id="{{module.module_id}}" class="card w-100 rounded rounded-4 border border-5 border-dark" style=' background-color : #d9d9d9'>
 						<div class="row no-gutters d-flex justify-content-center">
 							<div class="col-12">
-								{% if module.status_category != 'Normal' %}
+								{% if module.status_category == 'Avertissement' %}
+									<div class="alert alert-warning" role="alert">
+										{{ module.status_name }}
+										:
+										{{ module.status_message }}
+									</div>
+								{% endif %}
+								{% if module.status_category == 'Critique' %}
 									<div class="alert alert-danger" role="alert">
 										{{ module.status_name }}
 										:

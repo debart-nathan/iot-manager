@@ -17,32 +17,32 @@ class StatusFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $normal = new Status();
-        $normal->setName('Normal');
+        $normal->setStatusName('Normal');
         $normal->setCategory(Category::NORMAL);
         $manager->persist($normal);
 
         $batterieFaible = new Status();
-        $batterieFaible->setName('BatterieFaible');
+        $batterieFaible->setStatusName('BatterieFaible');
         $batterieFaible->setCategory(Category::AVERTISSEMENT);
         $manager->persist($batterieFaible);
 
         $hauteTemperature = new Status();
-        $hauteTemperature->setName('HauteTempérature');
+        $hauteTemperature->setStatusName('HauteTempérature');
         $hauteTemperature->setCategory(Category::AVERTISSEMENT);
         $manager->persist($hauteTemperature);
 
         $problemeDeConnectivite = new Status();
-        $problemeDeConnectivite->setName('ProblèmeDeConnectivité');
+        $problemeDeConnectivite->setStatusName('ProblèmeDeConnectivité');
         $problemeDeConnectivite->setCategory(Category::CRITIQUE);
         $manager->persist($problemeDeConnectivite);
 
         $defaillanceMaterielle = new Status();
-        $defaillanceMaterielle->setName('DéfaillanceMatérielle');
+        $defaillanceMaterielle->setStatusName('DéfaillanceMatérielle');
         $defaillanceMaterielle->setCategory(Category::CRITIQUE);
         $manager->persist($defaillanceMaterielle);
 
         $erreurLogicielle = new Status();
-        $erreurLogicielle->setName('ErreurLogicielle');
+        $erreurLogicielle->setStatusName('ErreurLogicielle');
         $erreurLogicielle->setCategory(Category::CRITIQUE);
         $manager->persist($erreurLogicielle);
 

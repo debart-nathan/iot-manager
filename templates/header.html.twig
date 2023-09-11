@@ -1,20 +1,35 @@
-<header>
-	<nav
-		class="navbar navbar-expand-sm bg-dark navbar-dark">
-		<!-- Brand/logo -->
-		<a class="navbar-brand" href="#">Logo</a>
+<header class="d-flex bg-dark justify-content-around">
+	<nav class="px-5 navbar navbar-expand-sm  navbar-dark">
 
-		<!-- Links -->
+
+		<a class="navbar-brand" href="/">
+			<h1>IoT_Manager</h1>
+		</a>
+
+
 		<ul class="navbar-nav">
 			<li class="nav-item">
-				<a class="nav-link" href="#">Link 1</a>
+				<a class="nav-link" href="/modules">liste des Modules</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Link 2</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">Link 3</a>
+				<a class="nav-link" href="/module/new">Ajouté un Module</a>
 			</li>
 		</ul>
 	</nav>
+	<div class="d-flex justify-content-between align-items-center">
+		{% if (moduleCounts.getCounts.advertisement > 0) %}
+			<div class=" bg-light p-1 rounded-circle me-2">
+				<a class="btn btn-warning alert-warning rounded-circle" href="/modules?status_category=Avertissement" title="Module avec un status de category Avertissment">
+					{{moduleCounts.getCounts.advertisement}}
+				</a>
+			</div>
+		{% endif %}
+		{% if (moduleCounts.getCounts.critical > 0 ) %}
+			<div class=" bg-light p-1 rounded-circle ">
+				<a class="btn btn-danger alert-danger rounded-circle" href="/modules?status_category=Critique" title="Module avec un status de category Critique">
+					{{moduleCounts.getCounts.critical}}
+				</a>
+			</div>
+		{% endif %}
+	</div>
 </header>
