@@ -16,6 +16,8 @@ class ModuleCreationHtmlController extends AbstractController
 
     /**
      * @Route("/module/new", name="module_new")
+     * This method handles the creation of a new module. It fetches all ModuleType entities,
+     * creates a form for the new module, and renders the form view.
      */
     public function new(Request $request, ModuleTypeRepository $moduleTypeRepository): Response
     {
@@ -29,15 +31,6 @@ class ModuleCreationHtmlController extends AbstractController
             'action' => $this->generateUrl('api_module_new'),
             'method' => 'POST'
         ]);
-
-        // Handle the request
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Perform some business logic...
-
-            return $this->redirectToRoute('module_success');
-        }
 
         return $this->render('Module/moduleForm.html.twig', [
             'form' => $form->createView(),
