@@ -73,7 +73,6 @@ window.addEventListener('load', () => {
  * necessary data for chart generation.
  */
 async function fetchDataAndGenerateChart(moduleId) {
-    console.log(moduleId)
     try {
         const response = await fetch('/api/value-log/module', {
             method: 'POST',
