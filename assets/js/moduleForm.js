@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 
 /** 
  * Selects dropdown, sets up event listener for value changes.
