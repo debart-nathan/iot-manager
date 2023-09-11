@@ -1,7 +1,12 @@
 import { Chart } from 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
 
-// Existing form submission code
+/** 
+ * Event listener for form submission. This prevents the default form submission behavior 
+ * and creates a URLSearchParams object from the form data. The page is then redirected to 
+ * the updated URL with the form data as query parameters. This is useful for preserving 
+ * form data across page loads.
+ */
 window.addEventListener('load', () => {
     // Event listener of submit of filter
     const form = document.querySelector('form');
@@ -11,21 +16,34 @@ window.addEventListener('load', () => {
         const params = new URLSearchParams();
         for (const [key, value] of formData) {
             if (value !== '') {
-                params.append(key, value);
+                params.append(encodeURIComponent(key), encodeURIComponent(value));
             }
         }
         window.location.href = `${window.location.pathname}?${params.toString()}`;
     });
 
+    /** 
+ * Event listener for delete buttons. When a delete button is clicked, the user is prompted 
+ * for confirmation. If the user confirms, the module is deleted. If the user cancels, the 
+ * deletion is prevented. This ensures that modules are not accidentally deleted.
+ */
     document.querySelectorAll('.btn-delete').forEach(function (btn) {
         btn.addEventListener('click', function (e) {
-            var moduleName = btn.getAttribute('data-module-name');
-            var confirmation = confirm(`Voulez-vous vraiment supprimer le module ${moduleName}?`);
+            const moduleName = btn.getAttribute('data-module-name');
+            const confirmation = window.confirm(`Voulez-vous vraiment supprimer le module ${moduleName}?`);
             if (!confirmation) {
                 e.preventDefault();
             }
         });
     });
+
+    /** 
+ * Event listeners for article elements and their child elements. When an article element 
+ * is clicked, data is fetched and a chart is generated based on the module ID. Child elements 
+ * of the article element also have event listeners that stop the event from bubbling up and 
+ * fetch data to generate a chart based on the parent article element's ID. This allows for 
+ * interactive data visualization within each module.
+ */
 
     // Get the article element
     const articleElements = document.querySelectorAll('article');
@@ -56,7 +74,13 @@ window.addEventListener('load', () => {
     });
 });
 
-// Function to fetch data and generate chart
+/** 
+ * Function to fetch data and generate a chart. This function sends a POST request to an API 
+ * endpoint with the module ID as a parameter. If the response is successful, the data is 
+ * processed and passed to the handleGraphs function for chart generation. If there is an 
+ * error, it is logged to the console. This function is responsible for retrieving the 
+ * necessary data for chart generation.
+ */
 async function fetchDataAndGenerateChart(moduleId) {
     console.log(moduleId)
     try {
@@ -66,7 +90,7 @@ async function fetchDataAndGenerateChart(moduleId) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "moduleId": moduleId
+                "moduleId": encodeURIComponent(moduleId)
             })
         });
 
@@ -83,7 +107,13 @@ async function fetchDataAndGenerateChart(moduleId) {
 }
 
 
-
+/** 
+ * Function to handle the generation of graphs. This function clears existing graph elements, 
+ * creates new div and canvas elements for each data entry, and appends them to the appropriate 
+ * parent element. It then initializes a Chart.js chart with the fetched data. The graph 
+ * element's max height is set to its scroll height to ensure it is fully visible. This function 
+ * is responsible for the actual creation and display of the data charts.
+ */
 function handleGraphs(moduleId, datas) {
     const graphElements = document.querySelectorAll('[id^="graph-"]');
     graphElements.forEach(element => {
