@@ -19,6 +19,16 @@ class ModuleApiController extends AbstractController
 {
     /**
      * @Route("/api/module/new", name="api_module_new", methods={"POST"})
+     *
+     * This method handles the creation of a new module. It validates the form submission, 
+     * sets the properties of the new module, and saves it to the database.
+     *
+     * @param Request $request The current request instance.
+     * @param StatusRepository $statusRepository The repository for Status entities.
+     * @param ModuleTypeRepository $moduleTypeRepository The repository for ModuleType entities.
+     * @param LoggerInterface $logger The logger service.
+     * @param EntityManagerInterface $entityManager The entity manager service.
+     * @return Response A Response instance.
      */
     public function newModule(
         Request $request,
@@ -61,7 +71,7 @@ class ModuleApiController extends AbstractController
                 // Save the new Module object to the database
                 $entityManager->persist($newModule);
                 $entityManager->flush();
-
+                $logger->info('New module created with id: ' . $newModule->getModuleId());
                 return $this->redirectToRoute('modules');
             } else {
                 return new Response('Form not submitted or not valid', 400);
@@ -75,12 +85,24 @@ class ModuleApiController extends AbstractController
 
     /**
      * @Route("/api/module/remove/{id}", name="api_module_remove", methods={"POST"})
+     *
+     * This method handles the removal of a module. It validates the CSRF token, 
+     * removes the module and associated value logs from the database.
+     *
+     * @param int $id The ID of the module to remove.
+     * @param Request $request The current request instance.
+     * @param ModuleRepository $moduleRepository The repository for Module entities.
+     * @param ValueLogRepository $valueLogRepository The repository for ValueLog entities.
+     * @param LoggerInterface $logger The logger service.
+     * @param EntityManagerInterface $entityManager The entity manager service.
+     * @return Response A Response instance.
      */
     public function removeModule(
         int $id,
         Request $request,
         ModuleRepository $moduleRepository,
         ValueLogRepository $valueLogRepository,
+        LoggerInterface $logger,
         EntityManagerInterface $entityManager
     ) {
         $module = $moduleRepository->find($id);
@@ -90,8 +112,10 @@ class ModuleApiController extends AbstractController
         }
 
         if (
-            $this->isCsrfTokenValid('delete' . $module->getModuleId(), 
-            $request->request->get('_token'))
+            $this->isCsrfTokenValid(
+                'delete' . $module->getModuleId(),
+                $request->request->get('_token')
+            )
         ) {
             $valueLogs = $valueLogRepository->findBy(['module_id' => $module->getModuleId()]);
             foreach ($valueLogs as $valueLog) {
@@ -99,6 +123,7 @@ class ModuleApiController extends AbstractController
             }
             $entityManager->remove($module);
             $entityManager->flush();
+            $logger->info('Module removed with id: ' . $id);
             $this->addFlash('success', 'Module has been deleted!');
 
             return $this->redirectToRoute("modules");
