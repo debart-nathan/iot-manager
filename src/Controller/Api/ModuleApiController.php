@@ -7,18 +7,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\ModuleTypeRepository;
+use App\Repository\ModuleRepository;
 use Psr\Log\LoggerInterface;
 use App\Repository\StatusRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Module;
 use App\Form\ModuleForm;
+use App\Repository\ValueLogRepository;
 
 class ModuleApiController extends AbstractController
 {
     /**
      * @Route("/api/module/new", name="api_module_new", methods={"POST"})
      */
-    public function new(
+    public function newModule(
         Request $request,
         StatusRepository $statusRepository,
         ModuleTypeRepository $moduleTypeRepository,
@@ -69,5 +71,40 @@ class ModuleApiController extends AbstractController
             $logger->error($e->getMessage());
             throw $e;
         }
+    }
+
+    /**
+     * @Route("/api/module/remove/{id}", name="api_module_remove", methods={"POST"})
+     */
+    public function removeModule(
+        int $id,
+        Request $request,
+        ModuleRepository $moduleRepository,
+        ValueLogRepository $valueLogRepository,
+        EntityManagerInterface $entityManager
+    ) {
+        $module = $moduleRepository->find($id);
+
+        if (!$module) {
+            throw $this->createNotFoundException('No module found for id ' . $id);
+        }
+
+        if (
+            $this->isCsrfTokenValid('delete' . $module->getModuleId(), 
+            $request->request->get('_token'))
+        ) {
+            $valueLogs = $valueLogRepository->findBy(['module_id' => $module->getModuleId()]);
+            foreach ($valueLogs as $valueLog) {
+                $entityManager->remove($valueLog);
+            }
+            $entityManager->remove($module);
+            $entityManager->flush();
+            $this->addFlash('success', 'Module has been deleted!');
+
+            return $this->redirectToRoute("modules");
+        }
+
+        // If CSRF token is not valid, do nothing and return
+        return new Response('Invalid CSRF token', 400);
     }
 }

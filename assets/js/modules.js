@@ -17,6 +17,16 @@ window.addEventListener('load', () => {
         window.location.href = `${window.location.pathname}?${params.toString()}`;
     });
 
+    document.querySelectorAll('.btn-delete').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            var moduleName = btn.getAttribute('data-module-name');
+            var confirmation = confirm(`Voulez-vous vraiment supprimer le module ${moduleName}?`);
+            if (!confirmation) {
+                e.preventDefault();
+            }
+        });
+    });
+
     // Get the article element
     const articleElements = document.querySelectorAll('article');
     let childElements = null;

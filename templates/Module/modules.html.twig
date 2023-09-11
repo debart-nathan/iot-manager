@@ -5,7 +5,7 @@
 
 {% block main %}
 
-	<section id="filters-sort" class=" p-3 msfs-6 " style=' background-color : #d8d8d8'>
+	<section id="filters-sort" class=" p-3 msfs-6  mb-3" style=' background-color : #d8d8d8'>
 		<h2>Listes des modules</h2>
 		<form action="/modules" method="get">
 			<div class="container  row">
@@ -59,10 +59,10 @@
 									</div>
 								{% endif %}
 							</div>
-							<div class="col-md-3 overflow-hidden rounded rounded-4 d-flex justify-content-center align-items-center">
+							<div class="col-md-2 overflow-hidden rounded rounded-4 d-flex justify-content-center align-items-center">
 								<img src="{{ asset('build/images/' ~ module.module_type_picture_file ) }}" class="card-img fitted-image" alt="{{ module.module_type_name }}">
 							</div>
-							<div class="col-md-3">
+							<div class="col-md-2">
 								<div class="card-body">
 									<h3 class="card-title">{{ module.module_name }}</h3>
 									<p class="card-text">{{ module.model }}</p>
@@ -71,7 +71,7 @@
 									</p>
 								</div>
 							</div>
-							<div class="col-md-3">
+							<div class="col-md-2">
 								<div class="card-body">
 									<p class="card-text">Total Value Logs:
 										{{ module.total_value_logs }}</p>
@@ -79,7 +79,7 @@
 										{{ module.activation_duration }}</p>
 								</div>
 							</div>
-							<div class="col-md-3">
+							<div class="col-md-2">
 								<div class="card-body">
 									{% for value_log in module.most_recent_value_logs %}
 										<p class="card-text">{{ value_log.value_type_name }}:
@@ -88,6 +88,18 @@
 									{% endfor %}
 								</div>
 							</div>
+							<div class="col-md-2">
+								<div class="card-body">
+									<form action="{{ path('api_module_remove', {'id': module.module_id}) }}" method="post">
+										<input type="hidden" name="_method" value="DELETE"/>
+										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ module.module_id) }}"/>
+										<button class="btn btn-danger btn-delete" type="submit" data-module-name="{{ module.module_name | escape('js') }}">
+											Supprimer
+										</button>
+									</form>
+								</div>
+							</div>
+
 							<div class="col-12">
 								<div id="graph-{{module.module_id}}" class="row graph" style=' background-color : #c9c9c9'></div>
 							</div>
