@@ -2,13 +2,13 @@ window.onload = function () {
     // Selecting module type dropdown
     const module_type_dropdown = document.getElementById('module_form_module_type_name');
 
-    // Setting up an event listener for the module type dropdown
+    // Setting up an on change event listener for the module type dropdown
     module_type_dropdown.addEventListener('change', function (e) {
         const selectedOption = e.target.options[e.target.selectedIndex];
         populateDescription(selectedOption);
     });
 
-    // Defining the populateDescription function
+    // This function fetches and updates the description for the selected module types.
     function populateDescription(selectedOption) {
         console.log(selectedOption.value)
         fetch('/api/module-type/', {
@@ -22,11 +22,13 @@ window.onload = function () {
             .then(data => {
                 console.log(data)
 
-                let description = data.description;
-                let picture_file = data.picture;
+                const description = data.description;
+                const picture_file = data.picture;
+
+                const cleanedDescription = DOMPurify.sanitize(description);
 
                 // Update the description and image based on the fetched data
-                document.getElementById('module-type-description').innerHTML = description;
+                document.getElementById('module-type-description').innerHTML = cleanedDescription;
                 let imageElement = document.getElementById('module-type-picture');
                 console.log(picture_file);
                 imageElement.src = imageElement.dataset.src.replace("default.png", picture_file);
