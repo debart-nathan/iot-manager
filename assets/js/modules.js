@@ -24,8 +24,9 @@ window.addEventListener('load', () => {
     */
     document.querySelectorAll('.btn-delete').forEach(function (btn) {
         btn.addEventListener('click', function (e) {
-            const moduleName = btn.getAttribute('data-module-name');
-            const confirmation = window.confirm(`Voulez-vous vraiment supprimer le module ${moduleName}?`);
+            let moduleName = btn.getAttribute('data-module-name');
+            moduleName = moduleName.replace(/\\u0020/g, ' ');
+            const confirmation = window.confirm(`Voulez-vous vraiment supprimer le module "${moduleName}"?`);
             if (!confirmation) {
                 e.preventDefault();
             }
@@ -65,7 +66,11 @@ window.addEventListener('load', () => {
 });
 
 /** 
- * Generates graphs from fetched data.
+ * Function to fetch data and generate a chart. This function sends a POST request to an API 
+ * endpoint with the module ID as a parameter. If the response is successful, the data is 
+ * processed and passed to the handleGraphs function for chart generation. If there is an 
+ * error, it is logged to the console. This function is responsible for retrieving the 
+ * necessary data for chart generation.
  */
 async function fetchDataAndGenerateChart(moduleId) {
     console.log(moduleId)
