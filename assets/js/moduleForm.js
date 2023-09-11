@@ -17,7 +17,6 @@ window.onload = function () {
      * Fetches and updates description for selected module type.
      */
     function populateDescription(selectedOption) {
-        console.log(selectedOption.value)
         fetch('/api/module-type/', {
             method: 'POST',
             headers: {
@@ -27,7 +26,6 @@ window.onload = function () {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data)
 
                 const description = data.description;
                 const picture_file = data.picture;
