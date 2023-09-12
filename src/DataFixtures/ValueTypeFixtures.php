@@ -11,34 +11,34 @@ class ValueTypeFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $comptageDePersonnes = new ValueType();
-        $comptageDePersonnes->setValueTypeName('ComptageDePersonnes');
+        $comptageDePersonnes->setValueTypeName('Comptage de personnes');
         $comptageDePersonnes->setUnit('');
         $manager->persist($comptageDePersonnes);
-        $this->addReference('comptageDePersonnes', $comptageDePersonnes);
+        $this->addReference('Comptage de personnes', $comptageDePersonnes);
     
         $latitude = new ValueType();
         $latitude->setValueTypeName('Latitude');
         $latitude->setUnit('°');
         $manager->persist($latitude);
-        $this->addReference('latitude', $latitude);
+        $this->addReference('Latitude', $latitude);
     
         $longitude = new ValueType();
         $longitude->setValueTypeName('Longitude');
         $longitude->setUnit('°');
         $manager->persist($longitude);
-        $this->addReference('longitude', $longitude);
+        $this->addReference('Longitude', $longitude);
     
         $vitesse = new ValueType();
         $vitesse->setValueTypeName('Vitesse');
         $vitesse->setUnit('kmh');
         $manager->persist($vitesse);
-        $this->addReference('vitesse', $vitesse);
+        $this->addReference('Vitesse', $vitesse);
     
         $distanceParcourue = new ValueType();
-        $distanceParcourue->setValueTypeName('DistanceParcourue');
+        $distanceParcourue->setValueTypeName('Distance parcourue');
         $distanceParcourue->setUnit('km');
         $manager->persist($distanceParcourue);
-        $this->addReference('distanceParcourue', $distanceParcourue);
+        $this->addReference('Distance parcourue', $distanceParcourue);
     
         $manager->flush();
     }

@@ -12,9 +12,9 @@ class ModuleTypeFixtures extends Fixture
     {
         $eyes = new ModuleType();
         $eyes->setModuleTypeName('Eyes');
-        $eyesDesc = 'Eyes, de Webreathe, est une cellule 3D IoT pour les entreprises de transport.';
+        $eyesDesc = 'Eyes, de Webreathe, est une cellule 3D IoT.';
         $eyesDesc .= "<br>" . 'Elle compte précisément le nombre de personnes passant par une porte de véhicule.';
-        $eyesDesc .= "<br>" . 'Idéal pour la gestion du flux de personnes dans les véhicules de transport.';
+        $eyesDesc .= "<br>" . 'Ainsi que la position du véhicule.';
         $eyes->setDescription($eyesDesc);
         $eyes->setPictureFile("default.png");
         $manager->persist($eyes);
@@ -23,8 +23,6 @@ class ModuleTypeFixtures extends Fixture
         $odometre = new ModuleType();
         $odometre->setModuleTypeName('Odomètre');
         $odometreDesc = 'Un odomètre est un dispositif qui mesure la distance parcourue par un véhicule de transport.';
-        $odometreDesc .= "<br>" . 'Il est généralement utilisé pour le suivi et l\'entretien des véhicules,';
-        $odometreDesc .= ' permettant une gestion des ressources plus efficace pour les entreprises de transport.';
         $odometre->setDescription($odometreDesc);
         $odometre->setPictureFile("default.png");
         $manager->persist($odometre);
@@ -32,8 +30,7 @@ class ModuleTypeFixtures extends Fixture
     
         $gps = new ModuleType();
         $gps->setModuleTypeName('GPS');
-        $gpsDesc = 'Le GPS est un dispositif qui fournit des informations de géolocalisation précises';
-        $gpsDesc .= ' pour les entreprises de transport.' . "<br>";
+        $gpsDesc = 'Le GPS est un dispositif qui fournit des informations de géolocalisation précises.<br>';
         $gpsDesc .= 'Il est essentiel pour le suivi en temps réel des véhicules et pour l\'optimisation';
         $gpsDesc .= ' des itinéraires de transport.';
         $gps->setDescription($gpsDesc);

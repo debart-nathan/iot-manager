@@ -12,13 +12,13 @@ class ModuleTypeValueFixtures extends Fixture implements DependentFixtureInterfa
     public function load(ObjectManager $manager)
     {
         // Create ModuleTypeValue for 'eyes' with 'comptageDePersonnes', 'latitude', 'longitude'
-        $this->createModuleTypeValue($manager, 'eyes', ['comptageDePersonnes', 'latitude', 'longitude']);
+        $this->createModuleTypeValue($manager, 'eyes', ['Comptage de personnes', 'Latitude', 'Longitude']);
 
         // Create ModuleTypeValue for 'gps' with 'latitude', 'longitude', 'vitesse'
-        $this->createModuleTypeValue($manager, 'gps', ['latitude', 'longitude', 'vitesse']);
+        $this->createModuleTypeValue($manager, 'gps', ['Latitude', 'Longitude', 'Vitesse']);
 
         // Create ModuleTypeValue for 'odometre' with 'distanceParourue'
-        $this->createModuleTypeValue($manager, 'odometre', ['distanceParcourue']);
+        $this->createModuleTypeValue($manager, 'odometre', ['Distance parcourue']);
 
         $manager->flush();
     }
@@ -29,8 +29,8 @@ class ModuleTypeValueFixtures extends Fixture implements DependentFixtureInterfa
         foreach ($valueTypeNames as $valueTypeName) {
             $valueType = $this->getReference($valueTypeName);
             $moduleTypeValue = new ModuleTypeValue();
-            $moduleTypeValue->setModuleType($moduleType);
-            $moduleTypeValue->setValueType($valueType);
+            $moduleTypeValue->setModuleTypeName($moduleType);
+            $moduleTypeValue->setValueTypeName($valueType);
             $manager->persist($moduleTypeValue);
         }
     }
