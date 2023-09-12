@@ -36,6 +36,9 @@ These scripts will install Composer dependencies, Node.js dependencies, and Webp
 
 6. Add the pictures of your module types into the `target_pictures` directory.
 
+## simulation
+
+You can simulate data entry for your module using the `simulationScript.php`
 ## Contributing
 
 If you want to contribute to this project, please fork the repository and use a feature branch. Pull requests are warmly welcome.
