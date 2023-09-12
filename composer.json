@@ -8,6 +8,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.10",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.16",
         "sensio/framework-extra-bundle": "^6.2",
@@ -16,6 +17,7 @@
         "symfony/flex": "^2",
         "symfony/form": "6.3.*",
         "symfony/framework-bundle": "6.3.*",
+        "symfony/monolog-bundle": "^3.8",
         "symfony/runtime": "6.3.*",
         "symfony/security-csrf": "6.3.*",
         "symfony/twig-bundle": "6.3.*",
@@ -71,8 +73,6 @@
         }
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "symfony/maker-bundle": "^1.50",
-        "symfony/monolog-bundle": "^3.8"
+        "symfony/maker-bundle": "^1.50"
     }
 }
