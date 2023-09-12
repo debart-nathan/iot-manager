@@ -24,8 +24,8 @@ class ModuleForm extends AbstractType
 
         $builder
             ->add('module_name', TextType::class)
-            ->add('reference_code', TextType::class)
             ->add('model', TextType::class)
+            ->add('reference_code', TextType::class)
             ->add('module_type_name', EntityType::class, [
                 'class' => ModuleType::class,
                 'choice_label' => function (ModuleType $moduleType) {
@@ -39,7 +39,7 @@ class ModuleForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Module::class,
-            'moduleTypes' => [], // add this line to accept moduleTypes in options
+            'moduleTypes' => [],
         ]);
     }
 }
