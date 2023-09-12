@@ -34,13 +34,13 @@ final class Version20230912015728 extends AbstractMigration
         $this->addSql('ALTER TABLE value_log ADD CONSTRAINT FK_DCCAE229AFC2B591 FOREIGN KEY (module_id) REFERENCES module (module_id)');
         $this->addSql(
             "
-        CREATE PROCEDURE check_module_type_consistency(IN module_id INT, IN value_log_id INT)
+        CREATE PROCEDURE check_module_type_consistency(IN module_id INT, IN module_type_value_id INT)
         BEGIN
-        DECLARE module_type_of_module INT;
-        DECLARE module_type_of_module_type_value INT;
+        DECLARE module_type_of_module VARCHAR(50);
+        DECLARE module_type_of_module_type_value VARCHAR(50);
         
-        SELECT m.module_type_id INTO module_type_of_module FROM module AS m WHERE m.module_id = module_id;
-        SELECT mt.module_type_id INTO module_type_of_module_type_value FROM module_type_value AS mt WHERE mt.value_log_id = value_log_id;
+        SELECT m.module_type_name INTO module_type_of_module FROM module AS m WHERE m.module_id = module_id;
+        SELECT mt.module_type_name INTO module_type_of_module_type_value FROM module_type_value AS mt WHERE mt.module_type_value_id = module_type_value_id;
         
         IF module_type_of_module <> module_type_of_module_type_value THEN
             SIGNAL SQLSTATE '45000';
@@ -51,14 +51,14 @@ final class Version20230912015728 extends AbstractMigration
         $this->addSql("
         CREATE TRIGGER enforce_consistency_insert_trigger BEFORE
         INSERT ON value_log FOR EACH ROW
-        CALL check_module_type_consistency(NEW.module_id, NEW.value_log_id);
+        CALL check_module_type_consistency(NEW.module_id, NEW.module_type_value_id);
         ");
 
         $this->addSql(
             "
         CREATE TRIGGER enforce_consistency_update_trigger BEFORE
         UPDATE ON value_log FOR EACH ROW
-        CALL check_module_type_consistency(NEW.module_id, NEW.value_log_id);
+        CALL check_module_type_consistency(NEW.module_id, NEW.module_type_value_id);
         "
         );
     }
